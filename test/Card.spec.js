@@ -13,9 +13,9 @@ describe('Card', () => {
   ];
 
   it('should render correctly as snapshot', () => {
-    const component = shallow(<Card rows={rows} />);
+    const wrapper = shallow(<Card rows={rows} />);
 
-    expect(component).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render 2 div with class label', () => {
@@ -27,8 +27,9 @@ describe('Card', () => {
   it('should contain null message', () => {
     const wrapper = mount(<Card rows={[]} />);
 
-    expect(
-      wrapper.contains(<div className="null-message">Null</div>),
-    ).toEqual(true);
+    expect(wrapper.contains(<div className="null-message">Null</div>)).toEqual(
+      true,
+    );
+    expect(wrapper.find('.div.label').exists()).toEqual(false);
   });
 });
