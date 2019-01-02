@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, render, mount } from 'enzyme';
 import Card from '../src/Card';
 
 describe('Card', () => {
@@ -19,7 +19,7 @@ describe('Card', () => {
   });
 
   it('should render 2 div with class label', () => {
-    const wrapper = mount(<Card rows={rows} />);
+    const wrapper = render(<Card rows={rows} />);
 
     expect(wrapper.find('div.label')).toHaveLength(2);
   });
