@@ -6,22 +6,75 @@ describe('Card', () => {
   const rows = [
     {
       name: '123',
+      status: 'active',
     },
     {
       name: '123',
+      status: 'inactive',
     },
   ];
 
   it('should render correctly as snapshot', () => {
+    const mockOnClick = jest.fn();
+    Card.prototype.handleOnClick = mockOnClick;
+
     const wrapper = shallow(<Card rows={rows} />);
 
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render 2 div with class label', () => {
-    const wrapper = render(<Card rows={rows} />);
+  it('should render 1 active div with class label', () => {
+    const activeRows = [
+      {
+        name: '123',
+        status: 'active',
+      },
+      {
+        name: '123',
+        status: 'active',
+      },
+    ];
+    const wrapper = render(<Card rows={activeRows} />);
 
     expect(wrapper.find('div.label')).toHaveLength(2);
+  });
+
+  it('should render 0 active div with class label', () => {
+    const activeRows = [
+      {
+        name: '123',
+        status: 'inactive',
+      },
+      {
+        name: '123',
+        status: 'inactive',
+      },
+    ];
+    const wrapper = render(<Card rows={activeRows} />);
+
+    expect(wrapper.find('div.label')).toHaveLength(0);
+  });
+
+  it('should render done status tag', () => {
+    const activeRows = [
+      {
+        name: '123',
+        status: 'inactive',
+      },
+      {
+        name: '123',
+        status: 'inactive',
+      },
+    ];
+    const wrapper = render(<Card rows={activeRows} tag={'DONE'} />);
+
+    expect(wrapper.find('div.label')).toHaveLength(0);
+
+    expect(wrapper.find('#status-tag')).toHaveLength(1);
+    
+    expect(wrapper.find('#status-tag').html()).toEqual('Done');
+
+    expect(wrapper.find('#status-tag').hasClass('done-tag')).toEqual(true);
   });
 
   it('should contain null message', () => {
@@ -30,6 +83,14 @@ describe('Card', () => {
     expect(wrapper.contains(<div className="null-message">Null</div>)).toEqual(
       true,
     );
+
     expect(wrapper.find('.div.label').exists()).toEqual(false);
+
+    // Simulate OnClick Event
+    wrapper.find('#container').simulate('click');
+
+    expect(wrapper).toMatchSnapshot();
+
+    expect(wrapper.state().isShow).toEqual(true);
   });
 });
