@@ -71,14 +71,23 @@ describe('Card', () => {
     expect(wrapper.find('div.label')).toHaveLength(0);
 
     expect(wrapper.find('#status-tag')).toHaveLength(1);
-    
+
     expect(wrapper.find('#status-tag').html()).toEqual('Done');
 
     expect(wrapper.find('#status-tag').hasClass('done-tag')).toEqual(true);
   });
 
   it('should contain null message', () => {
+    const adder = jest
+      .spyOn(global, 'addEventListener')
+      .mockImplementation(() => {});
+
+    const remover = jest
+      .spyOn(global, 'removeEventListener')
+      .mockImplementation(() => {});
     const wrapper = mount(<Card rows={[]} />);
+
+    expect(adder).toBeCalled();
 
     expect(wrapper.contains(<div className="null-message">Null</div>)).toEqual(
       true,
@@ -92,5 +101,8 @@ describe('Card', () => {
     expect(wrapper).toMatchSnapshot();
 
     expect(wrapper.state().isShow).toEqual(true);
+
+    wrapper.unmount();
+    expect(remover).toBeCalled();
   });
 });

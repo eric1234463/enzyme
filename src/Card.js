@@ -8,11 +8,22 @@ class Card extends Component {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener('keyup', this.handleKeyUp);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyUp);
+  }
+
   handleOnClick = () => {
     this.setState({
       isShow: !this.state.isShow,
     });
   };
+
+  handleKeyUp(event) {
+    console.log('on key up')
+  }
 
   render() {
     const { rows, tag } = this.props;
