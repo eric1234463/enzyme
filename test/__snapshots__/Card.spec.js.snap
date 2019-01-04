@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Card should contain null message 1`] = `
+exports[`Card should render correctly as snapshot 1`] = `
+<div
+  id="container"
+  onClick={[Function]}
+>
+  <div
+    className="label"
+    key="0"
+  >
+    123
+  </div>
+</div>
+`;
+
+exports[`Card when container click should change state isShow 1`] = `
 <Card
   rows={Array []}
 >
@@ -18,18 +32,4 @@ exports[`Card should contain null message 1`] = `
     </div>
   </div>
 </Card>
-`;
-
-exports[`Card should render correctly as snapshot 1`] = `
-<div
-  id="container"
-  onClick={[Function]}
->
-  <div
-    className="label"
-    key="0"
-  >
-    123
-  </div>
-</div>
 `;
