@@ -6,12 +6,12 @@ describe('Card', () => {
   const rows = [
     {
       name: '123',
-      status: 'active',
+      status: 'active'
     },
     {
       name: '123',
-      status: 'inactive',
-    },
+      status: 'inactive'
+    }
   ];
 
   it('should render correctly as snapshot', () => {
@@ -27,12 +27,12 @@ describe('Card', () => {
     const activeRows = [
       {
         name: '123',
-        status: 'active',
+        status: 'active'
       },
       {
         name: '123',
-        status: 'active',
-      },
+        status: 'active'
+      }
     ];
     const wrapper = render(<Card rows={activeRows} />);
 
@@ -43,12 +43,12 @@ describe('Card', () => {
     const activeRows = [
       {
         name: '123',
-        status: 'inactive',
+        status: 'inactive'
       },
       {
         name: '123',
-        status: 'inactive',
-      },
+        status: 'inactive'
+      }
     ];
     const wrapper = render(<Card rows={activeRows} />);
 
@@ -59,12 +59,12 @@ describe('Card', () => {
     const activeRows = [
       {
         name: '123',
-        status: 'inactive',
+        status: 'inactive'
       },
       {
         name: '123',
-        status: 'inactive',
-      },
+        status: 'inactive'
+      }
     ];
     const wrapper = render(<Card rows={activeRows} tag={'DONE'} />);
 
@@ -78,22 +78,29 @@ describe('Card', () => {
   });
 
   it('should contain null message', () => {
-    const adder = jest
-      .spyOn(global, 'addEventListener')
-      .mockImplementation(() => {});
-
-    const remover = jest
-      .spyOn(global, 'removeEventListener')
-      .mockImplementation(() => {});
     const wrapper = mount(<Card rows={[]} />);
 
-    expect(adder).toBeCalled();
-
-    expect(wrapper.contains(<div className="null-message">Null</div>)).toEqual(
-      true,
-    );
+    expect(wrapper.contains(<div className='null-message'>Null</div>)).toEqual(true);
 
     expect(wrapper.find('.div.label').exists()).toEqual(false);
+
+  });
+
+  it('when ComponentDidMount should call addEventListener && unmount should call removeEventListener', () => {
+    const adder = jest.spyOn(global, 'addEventListener').mockImplementation(() => {});
+
+    const remover = jest.spyOn(global, 'removeEventListener').mockImplementation(() => {});
+    const wrapper = mount(<Card rows={[]} />);
+    
+    expect(adder).toBeCalled();
+    
+    wrapper.unmount();
+    
+    expect(remover).toBeCalled();
+  });
+
+  it('when container click should change state isShow', () => {
+    const wrapper = mount(<Card rows={[]} />);
 
     // Simulate OnClick Event
     wrapper.find('#container').simulate('click');
@@ -101,8 +108,5 @@ describe('Card', () => {
     expect(wrapper).toMatchSnapshot();
 
     expect(wrapper.state().isShow).toEqual(true);
-
-    wrapper.unmount();
-    expect(remover).toBeCalled();
-  });
+  })
 });
